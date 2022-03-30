@@ -1,4 +1,4 @@
-package com.aspect.aspectsdemo.service.model;
+package com.aspect.aspectsdemo.model;
 
 public class Circle
 {

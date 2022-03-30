@@ -1,7 +1,7 @@
 package com.aspect.aspectsdemo.service;
 
-import com.aspect.aspectsdemo.service.model.Circle;
-import com.aspect.aspectsdemo.service.model.Triangle;
+import com.aspect.aspectsdemo.model.Circle;
+import com.aspect.aspectsdemo.model.Triangle;
 
 public class ShapeService
 {

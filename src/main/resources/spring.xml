@@ -8,11 +8,11 @@
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
 <aop:aspectj-autoproxy/>
 
-  <bean name="triangle" class = "com.aspect.aspectsdemo.service.model.Triangle">
+  <bean name="triangle" class = "com.aspect.aspectsdemo.model.Triangle">
     <property name="name" value="Triangle name"/>
   </bean>
 
-  <bean name="circle" class="com.aspect.aspectsdemo.service.model.Circle">
+  <bean name="circle" class="com.aspect.aspectsdemo.model.Circle">
     <property name="name" value="Circle name"/>
   </bean>
 
