@@ -2,13 +2,13 @@ package com.aspect.aspectsdemo.aspect;
 
 import com.aspect.aspectsdemo.model.Circle;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 
 @Aspect
 public class LoggingAspect
 {
+  //  @Before("execution(* * *())")
+
   @Before("execution(public * get*(..))")
   //any method that starts with 'get' and returns any object and has 0 or more arguments
   public void loggingAdvice()
@@ -34,21 +34,41 @@ public class LoggingAspect
     System.out.println("-------------");
   }
 
-  @Before("args(String)") //apply advice to all method that take a single String argument
+  @Before("args(String)") //apply advice to all methods that take a single String argument
   public void stringAdvice()
   {
-    System.out.println("A method that takes String arguments");
+    System.out.println("Advice with String arguments executed");
   }
 
-  @Before("args(name)") //get the argument being passed
-  public void stringNameAdvice(String name)
+  @Before("args(name)") //all methods that take in a String argument
+  public void stringNameAdvice(String name) //take the argument value
   {
     System.out.println("The argument is " + name);
-    System.out.println("A method that takes String arguments");
   }
 
-//  @Before("execution(public  com.aspect.aspectsdemo.service.model.*.get*(..))")
-//  @Before("execution(* * *())")
+  @After("args(name)") //run advice after target method
+  public void afterMethodAdvice(String name)
+  {
+    System.out.println("After method advice executed");
+  }
+
+  @AfterThrowing(pointcut= "args(name)") //execute advice when exception is thrown
+  public void exceptionAdvice(String name)
+  {
+    System.out.println("Throwing Advice executed");
+  }
+
+  @AfterReturning("args(name)") //run only if target method returns (executes ok)
+  public void stringArgAdvice(String name)
+  {
+    System.out.println("The advice accepted parameter " + name);
+  }
+
+  @AfterReturning(pointcut = "args(name)", returning = "returnString")
+  public void stringArgAdvice2(String name, String returnString)
+  {
+    System.out.println("The advice returned parameter " + returnString);
+  }
 
   @Before("execution(* get*())")
   public void secondAdvice()
@@ -67,7 +87,7 @@ public class LoggingAspect
   {
   } //dummy method that holds the pointcut expression
 
-  @Pointcut("execution(public * com.aspect.aspectsdemo.model.Circle.*(..))") //method names
+  @Pointcut("execution(public String com.aspect.aspectsdemo.model.Circle.*(..))") //method names
   public void allPublicCircleMethodsWithZeroOrMoreParams()
   {
   }
@@ -78,9 +98,8 @@ public class LoggingAspect
   {
   }
 
-  @Pointcut("within(com.aspect.aspectsdemo.model..*)") //class names
-  public void allMethodsInPackageModelAndSubpackages()
-  {
-  }
-
+//  @Pointcut("within(com.aspect.aspectsdemo.model..*)") //class names
+//  public void allMethodsInPackageModelAndSubpackages()
+//  {
+//  }
 }
