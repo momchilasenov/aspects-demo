@@ -20,4 +20,14 @@
 
   <bean name="loggingAspect" class="com.aspect.aspectsdemo.aspect.LoggingAspect"/>
 
+  <bean name="sessionAspect" class="com.aspect.aspectsdemo.aspect.SessionAspect"/>
+
+<!--Session aspect defined-->
+  <aop:config>
+    <aop:aspect id="sessionAspect" ref="sessionAspect"> <!--marking class as aspect-->
+      <aop:pointcut id="allCircleMethods" expression="within(com.aspect.aspectsdemo.model.Circle)"/>
+      <aop:around pointcut-ref="allCircleMethods" method="allCircleMethods"/>
+    </aop:aspect>
+  </aop:config>
+
 </beans>
