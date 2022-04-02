@@ -1,9 +1,14 @@
 package com.aspect.aspectsdemo.model;
 
+import com.aspect.aspectsdemo.aspect.Loggable;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Circle
 {
   private String name;
 
+  @Loggable
   public String getName()
   {
     return name;

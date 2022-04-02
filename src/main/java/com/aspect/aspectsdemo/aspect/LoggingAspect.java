@@ -2,6 +2,7 @@ package com.aspect.aspectsdemo.aspect;
 
 import com.aspect.aspectsdemo.model.Circle;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 
 @Aspect
@@ -52,7 +53,7 @@ public class LoggingAspect
     System.out.println("After method advice executed");
   }
 
-  @AfterThrowing(pointcut= "args(name)") //execute advice when exception is thrown
+  @AfterThrowing(pointcut = "args(name)") //execute advice when exception is thrown
   public void exceptionAdvice(String name)
   {
     System.out.println("Throwing Advice executed");
@@ -82,7 +83,7 @@ public class LoggingAspect
     System.out.println("Third Advice executed");
   }
 
-  @Pointcut("execution(* get*())")
+  @Pointcut("execution(public String getName())")
   public void allGettersPointcut()
   {
   } //dummy method that holds the pointcut expression
@@ -102,4 +103,32 @@ public class LoggingAspect
 //  public void allMethodsInPackageModelAndSubpackages()
 //  {
 //  }
+
+  @Around("execution(public String com.aspect.aspectsdemo.model.*.*(..))")
+  public Object aroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable
+  {
+    System.out.println("before method execution");
+    Object returnValue = proceedingJoinPoint.proceed(); //actual execution of the method this advice is advising (can skip target method call)
+    System.out.println("after returning execution");
+    return returnValue;
+  }
+
+  @Before("allMethodsInAspectsDemoPackage()")
+  public void allMethods()
+  {
+    System.out.println("test");
+  }
+
+  @Pointcut("execution(* com.aspect.aspectsdemo.*.*(..))")
+  public void allMethodsInAspectsDemoPackage()
+  {
+    System.out.println("All package methods advice");
+  }
+
+  @Before("@annotation(com.aspect.aspectsdemo.aspect.Loggable)") //custom annotation advice
+  public void customAnnotationAdvice()
+  {
+    //methods annotated with @Loggable will trigger the advice
+    System.out.println("Custom annotation advice executed");
+  }
 }
